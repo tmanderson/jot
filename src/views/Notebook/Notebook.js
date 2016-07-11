@@ -32,7 +32,6 @@ class Notebook extends React.Component {
 
     return (
       <div className="notebook open"
-        onClick={cursorClick}
         onMouseDown={e => !e.target.getAttribute('data-toolbar') && cursorDown(e)}
         onMouseMove={e => dragging && !e.target.getAttribute('data-toolbar') && cursorDrag(e) }
         onMouseUp={e => !e.target.getAttribute('data-toolbar') && cursorUp(e)}>

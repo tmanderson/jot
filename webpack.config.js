@@ -10,22 +10,29 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          "presets": ["es2015", "react"],
-          "plugins": ["transform-class-properties"]
-        }
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       },
       {
-        test: /.scss$/,
-        exclude: /node_modules/,
-        include: [
-          path.resolve(__dirname, 'assets/styles'),
-          path.resolve(__dirname, 'src')
-        ],
-        loaders: ['style', 'css', 'sass']
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules|lib/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.woff(2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.png/,
+        loader: 'url-loader?limit=10000&mimetype=image/png'
       }
     ]
   },

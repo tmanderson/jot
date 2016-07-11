@@ -19,17 +19,18 @@ export const CURSOR_UP = 'CURSOR_UP'
 export const CURSOR_DRAG = 'CURSOR_DRAG'
 export const CURSOR_CLICK = 'CURSOR_CLICK'
 
-export const cursorDown = createAction(CURSOR_DOWN, (e) => ({ x: e.clientX, y: e.clientY }))
-export const cursorMove = createAction(CURSOR_MOVE, (e) => ({ x: e.clientX, y: e.clientY }))
-export const cursorUp = createAction(CURSOR_UP, (e) => ({ x: e.clientX, y: e.clientY }))
-export const cursorDrag = createAction(CURSOR_DRAG, (e) => ({ x: e.clientX, y: e.clientY }))
-export const cursorClick = createAction(CURSOR_CLICK, (e) => ({ x: e.clientX, y: e.clientY }))
+export const cursorDown = createAction(CURSOR_DOWN, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
+export const cursorMove = createAction(CURSOR_MOVE, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
+export const cursorUp = createAction(CURSOR_UP, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
+export const cursorDrag = createAction(CURSOR_DRAG, (e) => ({ target: e.target, x: e.clientX, y: e.clientY, dx: e.nativeEvent.movementX, dy: e.nativeEvent.movementY }))
+export const cursorClick = createAction(CURSOR_CLICK, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
 
 export const actions = {
   cursorDown,
   cursorMove,
   cursorUp,
-  cursorDrag
+  cursorDrag,
+  cursorClick
 }
 
 export default handleActions({
