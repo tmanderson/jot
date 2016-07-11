@@ -1,0 +1,18 @@
+.color-select {
+  overflow: hidden;
+  border-radius: 100%;
+  position: relative;
+  height: 100px;
+  width: 100px;
+
+  input {
+    -webkit-appearance: none;
+    background: transparent;
+    top: -20px;
+    left: -20px;
+    display: block;
+    height: 140px;
+    width: 140px;
+    position: absolute;
+  }
+}
