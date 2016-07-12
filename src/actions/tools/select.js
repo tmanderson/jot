@@ -20,13 +20,22 @@ export default {
   'CURSOR_DRAG': (state, { payload }) => {
     // If no paths are selected OR certain keys are pressed
     // (Shift - Additive, Ctrl - Subtractive)
-    const [ x , y ] = state.selection
+    let [ x , y ] = state.selection
 
     if(x && y) {
-      const w = payload.x - state.selection[0]
-      const h = payload.y - state.selection[1]
+      let w = payload.x - state.selection[0]
+      let h = payload.y - state.selection[1]
       const selection = [ state.selection[0], state.selection[1], w, h ]
 
+      if(w < 0) {
+        x += w;
+        w = state.selection[0]
+      }
+
+      if(h < 0) {
+        y += h;
+        h = state.selection[1]
+      }
 
       return Object.assign({}, state, {
         selection: selection,
@@ -37,8 +46,11 @@ export default {
             if(selected) return
             px += ox
             py += oy
+            // if any points are within the bounds of the selection, select this
+            // path!
             selected = ((px > x && px < x + w) && (py > y && py < y + h)) || ((px < x && px > x + w) && (py < y && py > y + h))
           })
+
           return Object.assign({}, props, { selected: selected })
         })
       })

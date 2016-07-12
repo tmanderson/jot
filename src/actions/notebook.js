@@ -14,6 +14,10 @@ export const defaultState = {
   pages: []
 };
 
+export const ADD_PAGE = 'ADD_PAGE'
+export const REMOVE_PAGE = 'REMOVE_PAGE'
+export const DUPLICATE_PAGE = 'DUPLICATE_PAGE'
+
 export const CURSOR_DOWN = 'CURSOR_DOWN'
 export const CURSOR_MOVE = 'CURSOR_MOVE'
 export const CURSOR_UP = 'CURSOR_UP'

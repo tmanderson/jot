@@ -50,6 +50,7 @@ export default class Path extends Component {
               transform={`translate(${translate[0]}, ${translate[1]})`}
               stroke={selected ? 'blue' : color}
               strokeWidth={size}
+              strokeLinejoin="round"
               points={points.map(p=>p.join(',')).join(' ')} />);
   }
 

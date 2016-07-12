@@ -22,6 +22,7 @@ export const actions = {
 }
 
 export default handleActions({
+  // currently, deselecting when changing tool
   [SET_TOOL]: (state, { payload }) => Object.assign({}, state, { tool: payload, paths: state.paths.map(p => Object.assign({}, p, { selected: false })) }),
   [SELECT]: (state, action) =>
     state.tool.tool && state.tool.tool[SELECT] && state.tool.tool[SELECT](state, action) || state,
