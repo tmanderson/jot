@@ -22,7 +22,8 @@ class Toolbar extends Component {
   }
 
   componentDidMount() {
-
+    const { size, color } = this.props
+    this.props.setTool(this.props.tools.pencil, { size, color })
   }
 
   setSize(size) {
@@ -39,11 +40,11 @@ class Toolbar extends Component {
   }
 
   render() {
-    const { tools, setTool } = this.props
+    const { size, tools, setTool } = this.props
 
     return (
       <div className="toolbar">
-        <input type="range" min="1" max="100" onChange={e => this.setSize(e.target.value)} data-toolbar="true" />
+        <input type="range" min="1" max="100" value={size} onChange={e => this.setSize(e.target.value)} data-toolbar="true" />
         <ColorSelect data-toolbar="true" className="color" onChange={val=>this.setColor(val)} />
         { map(tools, (tool, name) => <button key={name} data-toolbar="true" onClick={e => this.select(tool)}>{name}</button>) }
       </div>

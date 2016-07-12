@@ -27,8 +27,20 @@ class Notebook extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    document.onkeydown = (e) => {
+      let triggered = false
+      switch(e.key) {
+        case 'z': if(e.metaKey) this.props.undo(); break;
+        default: triggered = true
+      }
+
+      this.props.keyPress(e)
+    }
+  }
+
   render() {
-    const { dragging, cursorDown, cursorMove, cursorUp, cursorDrag, cursorClick } = this.props
+    const { keys, dragging, cursorDown, cursorMove, cursorUp, cursorDrag, cursorClick, keyPress } = this.props
 
     return (
       <div className="notebook open"

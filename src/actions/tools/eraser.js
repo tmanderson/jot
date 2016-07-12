@@ -6,58 +6,51 @@ import SVGSymbol from '../../components/SVG/Symbol'
 import Path from '../../components/SVG/Path'
 import Mask from '../../components/SVG/Mask'
 
+export const NAME = 'ERASER'
 /**
- *  TODO - Create a mask for EVERY path. Due to translations, masks must be
- *  of the same origin as the original path
- *
+ * Symbols don't need to be added at every new erase.
+ * If all paths have a mask, we can re-use the last symbol (as no new drawing
+ * layers have been added)
  */
 export default {
+  name: NAME,
   [CURSOR_DOWN]: (state, { payload }) => {
-    let symbolId = state.symbols.length && state.symbols.slice(-1)[0].id
-    let maskId = `mask-${state.masks.length}`
-    let symbols = state.symbols
-    let masks = state.masks
+    let masks = []
+    const symbolId = `erase-${state.symbols.length}`
 
-    // Only need to create new symbol/mask if there's a path that hasn't been
-    // assigned one
-    if(state.paths.filter(p => !p.mask).length) {
-      symbolId = `erase-${state.symbols.length}`
+    // Create a mask (and assign mask id to path) for any path that doesn't have one
+    const paths = state.paths.map((props, i) => {
+      if(props.mask) return props
+      const maskId = `mask-${i}`
 
-      symbols = symbols.concat({
-        id: symbolId,
-        contents: [{
-          color: 'black',
-          type:'path',
-          points: [[ payload.x, payload.y ]],
-          size: state.tool.size
-        }]
-      })
-
-      masks = masks.concat({
-        id: maskId,
-        size: state.tool.size,
-        contents: [],
-      }).map(m => Object.assign({}, m, {
-        contents: m.contents.concat({ type: 'use', xlinkHref: '#' + symbolId })
-      }))
-    }
-    else {
-      let lastSymbol = symbols.pop()
-
-      symbols.push(Object.assign({}, lastSymbol, {
-        contents: lastSymbol.contents.concat({
-          color: 'black',
-          type: 'path',
-          size: state.tool.size,
-          points: [[ payload.x, payload.y ]]
-        })
-      }))
-    }
+      masks.push({ id: maskId, contents: [] })
+      return Object.assign({}, props, { mask: maskId })
+    })
 
     return Object.assign({}, state, {
-      symbols: symbols,
-      masks: masks,
-      paths: state.paths.map(path => path.mask && path || Object.assign({}, path, { mask: `url(#${maskId})` }))
+      symbols: state.symbols.concat({
+        id: symbolId,
+        contents: [{
+          type: 'path',
+          points: [[payload.x, payload.y]],
+          color: 'black',
+          size: state.tool.size
+        }]
+      }),
+      masks: state.masks.concat(masks)
+        .map(props => {
+          const path = state.paths[props.id.split('-')[1]]
+
+          props.contents.push({
+            id: symbolId,
+            type: 'use',
+            // translation for mask's <use /> symbols (TODO: why reverse translation?)
+            translate: [ -path.translate[0], -path.translate[1]]
+          })
+
+          return props
+        }),
+      paths: paths
     })
   },
   [CURSOR_DRAG]: (state, { payload }) => {

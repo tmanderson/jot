@@ -1,9 +1,10 @@
 import { createAction, handleActions } from 'redux-actions'
 
-import { CURSOR_DRAG, CURSOR_DOWN, CURSOR_UP } from './notebook'
+import { CURSOR_DRAG, CURSOR_DOWN, CURSOR_UP, KEY_PRESS } from './notebook'
 import { SET_TOOL } from './tool'
 
 export const defaultState = {
+  selection: [0, 0, 0, 0],
   tool: null,
   paths: [],
   symbols: [],

@@ -44,7 +44,7 @@ export default class Path extends Component {
     const { mask, size, color, points, selected, translate, onClick } = this.props
 
     return (<polyline
-              mask={mask}
+              mask={mask && `url(#${mask})`}
               fill="none"
               onClick={onClick}
               transform={`translate(${translate[0]}, ${translate[1]})`}

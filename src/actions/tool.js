@@ -10,7 +10,7 @@ export const defaultState = {
   active: pencil,
   tools: { pencil, eraser, select },
   color: 'black',
-  size: 2
+  size: 4
 }
 
 export const SET_TOOL = 'SET_TOOL'
