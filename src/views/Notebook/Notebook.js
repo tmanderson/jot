@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react'
+import React, {  Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { actions } from '../../actions/notebook'
@@ -7,8 +8,12 @@ import Page from '../Page/Page'
 
 import styles from './Notebook.scss'
 
+// max time between mouse_down and mouse_up that merits a click
+const CLICK_DURATION = 400;
+
 class Notebook extends React.Component {
-  static mapStateToProps = (state) => state.notebook
+  static mapStateToProps = (state) => state.notebook;
+  static lastDown = Date.now();
 
   static propTypes = {
     dragging: PropTypes.bool,
@@ -39,14 +44,42 @@ class Notebook extends React.Component {
     }
   }
 
+  handleDown = e => {
+    const { cursorDown } = this.props;
+
+    if(Notebook.lastDown = Date.now() && !e.target.getAttribute('data-toolbar')) {
+      cursorDown(e);
+    }
+
+    Notebook.lastDown = Date.now();
+  }
+
+  handleClick = e => {
+    const { cursorClick } = this.props;
+
+    if(Date.now() - Notebook.lastDown < CLICK_DURATION && !e.target.getAttribute('data-toolbar')) {
+      cursorClick(e);
+    }
+  }
+
   render() {
-    const { keys, dragging, cursorDown, cursorMove, cursorUp, cursorDrag, cursorClick, keyPress } = this.props
+    const {
+      keys,
+      dragging,
+      cursorMove,
+      cursorUp,
+      cursorDrag,
+      keyPress
+    } = this.props
 
     return (
-      <div className="notebook open"
-        onMouseDown={e => !e.target.getAttribute('data-toolbar') && cursorDown(e)}
+      <div
+        className={[styles.notebook, styles.open].join(' ')}
+        onClick={this.handleClick}
+        onMouseDown={this.handleDown}
         onMouseMove={e => dragging && !e.target.getAttribute('data-toolbar') && cursorDrag(e) }
-        onMouseUp={e => !e.target.getAttribute('data-toolbar') && cursorUp(e)}>
+        onMouseUp={e => !e.target.getAttribute('data-toolbar') && cursorUp(e)}
+      >
         <Toolbar />
         <Page />
       </div>

@@ -1,18 +1,17 @@
 {
+  "presets": ["env", "react"],
   "plugins": [
-    "transform-class-properties",
-    "transform-decorators",
-    "transform-function-bind",
+    "transform-regenerator",
     "transform-object-rest-spread",
-    "transform-property-literals",
-    "transform-object-assign",
-    "syntax-class-properties",
-    "syntax-decorators",
+    "transform-async-to-generator",
+    "transform-async-to-module-method",
+    "transform-export-extensions",
+    "transform-class-properties",
+    "syntax-async-functions",
+    "add-module-exports",
+    "syntax-object-rest-spread",
     "syntax-jsx",
-    "syntax-object-rest-spread"
-  ],
-  "presets": [
-    "es2015",
-    "react"
+    "syntax-export-extensions",
+    "syntax-class-properties"
   ]
 }

@@ -1,19 +1,30 @@
 html, body, main {
   padding: 0;
   margin: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
 }
 
 .page {
   background-color: #EFEFEF;
 
   &, svg {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
   }
 
   .toolbar {
     max-width: 120px;
   }
+}
+
+svg use {
+  cursor: move;
+  pointer-events: bounding-box;
 }

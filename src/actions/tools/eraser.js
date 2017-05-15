@@ -1,5 +1,3 @@
-import React from 'react'
-import { createAction, handleActions } from 'redux-actions'
 import { CURSOR_DRAG, CURSOR_DOWN, CURSOR_UP } from '../notebook'
 
 import SVGSymbol from '../../components/SVG/Symbol'
@@ -37,6 +35,7 @@ export default {
           size: state.tool.size
         }]
       }),
+
       masks: state.masks.concat(masks)
         .map(props => {
           const path = state.paths[props.id.split('-')[1]]

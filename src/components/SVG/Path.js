@@ -1,5 +1,6 @@
 import { merge } from 'lodash'
-import React, { PropTypes, Component } from 'react'
+import React, {  Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class Path extends Component {
   static propTypes = {

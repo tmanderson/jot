@@ -1,12 +1,13 @@
 import { map } from 'lodash'
-import React, { PropTypes, Component } from 'react'
+import React, {  Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import AltRangeInput from '../../components/AltRangeInput/AltRangeInput'
 import ColorSelect from '../../components/ColorSelect/ColorSelect'
 
 import defaultProps, { actions } from '../../actions/tool'
-import './Toolbar.scss'
+import styles from './Toolbar.scss'
 
 class Toolbar extends Component {
   static mapStateToProps = state => Object.assign({}, state.tool, defaultProps);
@@ -43,7 +44,7 @@ class Toolbar extends Component {
     const { size, tools, setTool } = this.props
 
     return (
-      <div className="toolbar">
+      <div className={styles.toolbar}>
         <input type="range" min="1" max="100" value={size} onChange={e => this.setSize(e.target.value)} data-toolbar="true" />
         <ColorSelect data-toolbar="true" className="color" onChange={val=>this.setColor(val)} />
         { map(tools, (tool, name) => <button key={name} data-toolbar="true" onClick={e => this.select(tool)}>{name}</button>) }

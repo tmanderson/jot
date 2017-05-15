@@ -1,42 +1,79 @@
-var path = require('path')
-var fs = require('fs')
-var babelConfig = JSON.parse(fs.readFileSync('./.babelrc'))
+const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
+var WatchIgnorePlugin = require('watch-ignore-webpack-plugin')
+
+const babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
 
 module.exports = {
-  // context: __dirname + '/src',
-  devtool: '#source-map',
+  target: 'web',
+  devtool: 'eval',
+
+  context: __dirname,
   entry: './src/index.js',
-  output: './src/bundle.js',
+
+  resolve: {
+    modules: [
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, 'src'),
+      path.resolve(__dirname, 'assets/styles')
+    ],
+    extensions: ['.js', '.jsx', '.scss'],
+  },
+
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: path.resolve(__dirname, 'node_modules'),
+        options: {
+          "presets": [
+            ["env", {
+              "modules": false,
+              "loose": true
+            }],
+            "react",
+          ],
+          "plugins": babelrc.plugins
+        }
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader'
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              importLoaders: 1,
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [
+                path.resolve(__dirname, './assets/styles')
+              ],
+            }
+          },
+        ]
       },
-      {
-        test: /\.js$/,
-        exclude: /node_modules|lib/,
-        loader: 'babel-loader'
-      },
-      {
-        test: /\.woff(2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.png/,
-        loader: 'url-loader?limit=10000&mimetype=image/png'
-      }
     ]
   },
-  sassLoader: {
-    includePaths: [ `${__dirname}/assets/styles` ]
-  }
-}
+  plugins: [
+    new WatchIgnorePlugin([
+      path.resolve(__dirname, 'dist'),
+    ]),
+    new webpack.DefinePlugin({
+      '__DEV__': true,
+    }),
+  ],
+};

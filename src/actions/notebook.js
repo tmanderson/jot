@@ -26,12 +26,36 @@ export const CURSOR_CLICK = 'CURSOR_CLICK'
 export const KEY_PRESS = 'KEY_PRESS'
 export const UNDO = 'UNDO'
 
-export const cursorDown = createAction(CURSOR_DOWN, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
-export const cursorMove = createAction(CURSOR_MOVE, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
-export const cursorUp = createAction(CURSOR_UP, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
-export const cursorDrag = createAction(CURSOR_DRAG, (e) => ({ target: e.target, x: e.clientX, y: e.clientY, dx: e.nativeEvent.movementX, dy: e.nativeEvent.movementY }))
-export const cursorClick = createAction(CURSOR_CLICK, (e) => ({ target: e.target, x: e.clientX, y: e.clientY }))
-export const keyPress = createAction(KEY_PRESS, e => ({ key: e.key, meta: e.metaKey, alt: e.altKey, ctrl: e.ctrlKey, shift: e.shiftKey }))
+export const cursorDown = createAction(CURSOR_DOWN, e => ({ target: e.target, x: e.clientX, y: e.clientY }))
+export const cursorMove = createAction(CURSOR_MOVE, e => ({ target: e.target, x: e.clientX, y: e.clientY }))
+
+export const cursorUp = createAction(CURSOR_UP, e => ({
+  target: e.target,
+  x: e.clientX,
+  y: e.clientY
+}))
+
+export const cursorDrag = createAction(CURSOR_DRAG, e => ({
+  target: e.target,
+  x: e.clientX,
+  y: e.clientY,
+  dx: e.nativeEvent.movementX,
+  dy: e.nativeEvent.movementY
+}))
+
+export const cursorClick = createAction(CURSOR_CLICK, e => ({
+  target: e.target,
+  x: e.clientX,
+  y: e.clientY,
+}))
+
+export const keyPress = createAction(KEY_PRESS, e => ({
+  key: e.key,
+  meta: e.metaKey,
+  alt: e.altKey,
+  ctrl: e.ctrlKey,
+  shift: e.shiftKey
+}))
 
 export const actions = {
   cursorDown,

@@ -1,5 +1,3 @@
-import React from 'react'
-import { createAction, handleActions } from 'redux-actions'
 import { CURSOR_DRAG, CURSOR_DOWN, CURSOR_UP } from '../notebook'
 
 export const NAME = 'PENCIL'
@@ -14,6 +12,7 @@ export default {
       translate: [0, 0]
     })
   }),
+
   [CURSOR_DRAG]: (state, { payload }) => {
     const last = state.paths.pop()
 
@@ -25,6 +24,7 @@ export default {
       )
     })
   },
+
   [CURSOR_UP]: (state, { payload }) => {
     const last = state.paths.pop()
 
